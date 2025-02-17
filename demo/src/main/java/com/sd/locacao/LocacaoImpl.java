@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
-import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 
 public class LocacaoImpl extends UnicastRemoteObject implements Locacao {
     private List<Cliente> clientes;
@@ -17,12 +15,7 @@ public class LocacaoImpl extends UnicastRemoteObject implements Locacao {
     public LocacaoImpl() throws RemoteException {
         clientes = new ArrayList<>();
         aparelhos = new ArrayList<>();
-        // Configura o ObjectMapper para incluir informações de tipo
-        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
-            .allowIfSubType("com.sd.locacao")
-            .build();
         objectMapper = new ObjectMapper();
-        objectMapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
     }
 
     @Override
@@ -49,6 +42,7 @@ public class LocacaoImpl extends UnicastRemoteObject implements Locacao {
     public String listarAparelhosJson() throws RemoteException {
         try {
             String json = objectMapper.writeValueAsString(aparelhos);
+
             System.out.println("JSON gerado no servidor: " + json); // Log do JSON gerado
             return json;
         } catch (Exception e) {
