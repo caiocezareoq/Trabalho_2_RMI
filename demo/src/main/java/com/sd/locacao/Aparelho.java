@@ -3,8 +3,6 @@ package com.sd.locacao;
 
 import java.io.Serializable;
 
-
-// Superclasse Aparelho
 abstract class Aparelho implements Serializable {
     private String nome;
     private double precoLocacao;
